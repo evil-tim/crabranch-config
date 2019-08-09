@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/crabranch-config
+    destination: /home/ubuntu/crabranch-proxy
 permissions:
-  - object: /home/ubuntu/crabranch-config/code-deploy-scripts
+  - object: /home/ubuntu/crabranch-proxy/code-deploy-scripts
     owner: ubuntu
     group: ubuntu
     pattern: "*.sh"

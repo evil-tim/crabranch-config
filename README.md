@@ -1,4 +1,4 @@
-# Crabranch Config
+# Crabranch Proxy
 
 ## Prerequisites
 
