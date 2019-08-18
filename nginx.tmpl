@@ -94,6 +94,7 @@ server {
     listen [::]:80;
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
     return 503;
 }
 
@@ -106,6 +107,7 @@ server {
     listen [::]:443 ssl http2;
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
     return 503;
 
     ssl_protocols TLSv1.1 TLSv1.2;
@@ -193,6 +195,7 @@ server {
     listen [::]:80 {{ $default_server }};
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
     return 301 https://$host$request_uri;
 }
 {{ end }}
@@ -205,6 +208,7 @@ server {
     listen [::]:443 ssl http2 {{ $default_server }};
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
 
     {{ if eq $network_tag "internal" }}
     # Only allow traffic from internal clients
@@ -278,6 +282,7 @@ server {
     listen [::]:80 {{ $default_server }};
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
 
     {{ if eq $network_tag "internal" }}
     # Only allow traffic from internal clients
@@ -322,6 +327,7 @@ server {
     listen [::]:443 ssl http2 {{ $default_server }};
     {{ end }}
     access_log /var/log/nginx/access.log vhost;
+    access_log /var/log/nginx/crabranch/access.log vhost;
     return 500;
 
     ssl_certificate /etc/nginx/certs/default.crt;

@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - FAIL2BAN_REPOSITORY_URI=535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - cd fail2ban
+      - docker build -t $FAIL2BAN_REPOSITORY_URI:latest .
+      - docker tag $FAIL2BAN_REPOSITORY_URI:latest $FAIL2BAN_REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+artifacts:
+  files:
+    - code-deploy-scripts/start_app.sh
+    - code-deploy-scripts/stop_app.sh
+    - appspec.yml
+    - docker-compose.yml
+    - nginx.tmpl
+ 

@@ -1,40 +1,59 @@
-version: '2'
+version: '3'
 
 services:
   nginx:
     image: nginx
-    labels:
-      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     container_name: nginx
+    labels:
+        com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/nginx/conf.d
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
       - /certs:/etc/nginx/certs:ro
+      - nginx-confd:/etc/nginx/conf.d
+      - nginx-vhostd:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
+      - nginx-logs:/var/log/nginx/crabranch
 
   nginxdockergen:
     image: jwilder/docker-gen
-    labels:
-      - com.github.jrcs.letsencrypt_nginx_proxy_companion.docker_gen
+    container_name: nginx-docker-gen
     command: -notify-sighup nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
-    volumes_from:
-      - nginx
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl
+      - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
+      - /certs:/etc/nginx/certs:ro
+      - nginx-confd:/etc/nginx/conf.d
+      - nginx-vhostd:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
 
   nginxletsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    volumes_from:
-      - nginx
+    container_name: nginx-letsencrypt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /certs:/etc/nginx/certs:rw
+      - nginx-confd:/etc/nginx/conf.d
+      - nginx-vhostd:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
+    environment:
+      NGINX_DOCKER_GEN_CONTAINER: nginx-docker-gen
+      NGINX_PROXY_CONTAINER: nginx
+
+  fail2ban:
+    image: 535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban:latest
+    volumes:
+      - nginx-logs:/var/log/nginx/crabranch
+
+volumes:
+  nginx-confd:
+  nginx-vhostd:
+  nginx-html:
+  nginx-logs:
 
 networks:
   default:
     external:
       name: crabranch_network
+

@@ -1,0 +1,34 @@
+[INCLUDES]
+before = paths-debian.conf
+
+[DEFAULT]
+bantime     = 3600
+findtime    = 600
+maxretry    = 3
+backend     = auto
+usedns      = yes
+logencoding = auto
+enabled     = false
+mode        = normal
+banaction   = docker-iptables-multiport
+
+[nginx-noscript]
+enabled  = true
+port     = http,https
+filter   = nginx-noscript
+logpath  = /var/log/nginx/crabranch/access.log
+maxretry = 1
+
+[nginx-noproxy]
+enabled  = true
+port     = http,https
+filter   = nginx-noproxy
+logpath  = /var/log/nginx/crabranch/access.log
+maxretry = 1
+
+[nginx-antiscan]
+enabled  = true
+port     = http,https
+filter   = nginx-antiscan
+logpath  = /var/log/nginx/crabranch/access.log
+maxretry = 3
