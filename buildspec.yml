@@ -17,8 +17,8 @@ phases:
       - docker tag $FAIL2BAN_REPOSITORY_URI:latest $FAIL2BAN_REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $FAIL2BAN_REPOSITORY_URI:latest
+      - docker push $FAIL2BAN_REPOSITORY_URI:$IMAGE_TAG
 artifacts:
   files:
     - code-deploy-scripts/start_app.sh

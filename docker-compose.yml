@@ -45,6 +45,10 @@ services:
     image: 535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban:latest
     volumes:
       - nginx-logs:/var/log/nginx/crabranch
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: "host"
 
 volumes:
   nginx-confd:
