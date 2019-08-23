@@ -43,6 +43,7 @@ services:
 
   fail2ban:
     image: 535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban:latest
+    container_name: fail2ban
     volumes:
       - nginx-logs:/var/log/nginx/crabranch
     cap_add:
