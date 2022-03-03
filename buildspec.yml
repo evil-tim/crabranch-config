@@ -1,15 +1,15 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      docker: 18
   pre_build:
     commands:
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - FAIL2BAN_REPOSITORY_URI=535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban
+      - echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+      - ECR_URI=535425158818.dkr.ecr.ap-southeast-1.amazonaws.com
+      - FAIL2BAN_REPOSITORY_URI=$ECR_URI/crabranch/fail2ban
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_URI
+      - docker pull $FAIL2BAN_REPOSITORY_URI:latest || true
   build:
     commands:
       - cd fail2ban
