@@ -46,6 +46,7 @@ services:
     container_name: fail2ban
     volumes:
       - nginx-logs:/var/log/nginx/crabranch
+      - fail2ban-logs:/var/log/fail2ban
     cap_add:
       - NET_ADMIN
       - NET_RAW

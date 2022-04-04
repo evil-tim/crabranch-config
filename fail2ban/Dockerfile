@@ -2,6 +2,7 @@ FROM alpine:latest
 
 RUN apk --update --no-cache add fail2ban
 RUN rm /etc/fail2ban/jail.d/*.conf
+COPY fail2ban.local /etc/fail2ban/
 COPY jail.local /etc/fail2ban/
 COPY action.d/*.conf /etc/fail2ban/action.d/
 COPY filter.d/*.conf /etc/fail2ban/filter.d/
