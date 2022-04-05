@@ -57,6 +57,7 @@ volumes:
   nginx-vhostd:
   nginx-html:
   nginx-logs:
+  fail2ban-logs:
 
 networks:
   default:
