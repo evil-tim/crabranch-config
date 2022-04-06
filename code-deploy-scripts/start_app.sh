@@ -11,8 +11,5 @@ $(aws ecr get-login --no-include-email)
 
 # start
 cd /home/ubuntu/crabranch-proxy
-/usr/bin/docker pull 535425158818.dkr.ecr.ap-southeast-1.amazonaws.com/crabranch/fail2ban:latest
-/usr/bin/docker pull nginx:latest
-/usr/bin/docker pull jwilder/docker-gen:latest
-/usr/bin/docker pull jrcs/letsencrypt-nginx-proxy-companion:latest
+/usr/local/bin/docker-compose pull
 /usr/local/bin/docker-compose up -d
