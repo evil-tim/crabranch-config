@@ -12,10 +12,50 @@ enabled     = false
 mode        = normal
 banaction   = docker-iptables-multiport
 
-[nginx-exploit]
+[nginx-exploit-payload]
 enabled  = true
 port     = http,https
-filter   = nginx-exploit
+filter   = nginx-exploit-payload
+logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 31536000
+maxretry = 1
+
+[nginx-exploit-hw]
+enabled  = true
+port     = http,https
+filter   = nginx-exploit-hw
+logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 31536000
+maxretry = 1
+
+[nginx-exploit-php]
+enabled  = true
+port     = http,https
+filter   = nginx-exploit-php
+logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 8640000
+maxretry = 1
+
+[nginx-exploit-wordpress]
+enabled  = true
+port     = http,https
+filter   = nginx-exploit-wordpress
+logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 8640000
+maxretry = 1
+
+[nginx-exploit-microsoft]
+enabled  = true
+port     = http,https
+filter   = nginx-exploit-microsoft
+logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 8640000
+maxretry = 1
+
+[nginx-exploit-misc]
+enabled  = true
+port     = http,https
+filter   = nginx-exploit-misc
 logpath  = /var/log/nginx/crabranch/access.log
 bantime  = 8640000
 maxretry = 1
@@ -49,6 +89,7 @@ enabled  = true
 port     = http,https
 filter   = nginx-pubfiles
 logpath  = /var/log/nginx/crabranch/access.log
+bantime  = 3456000
 
 [nginx-antiscan]
 enabled  = true
